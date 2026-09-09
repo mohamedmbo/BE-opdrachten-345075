@@ -11,6 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-semibold">Welkom, {{ auth()->user()->name }}!</h3>
                     <p class="mt-2">Je bent ingelogd bij Jamin.</p>
+                    <a href="{{ route('magazijn.index') }}" class="mt-6 inline-flex rounded-lg bg-red-700 px-5 py-3 font-semibold text-white">Overzicht Magazijn Jamin</a>
                 </div>
             </div>
         </div>

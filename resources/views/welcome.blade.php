@@ -13,6 +13,7 @@
             <h1 class="mt-4 text-4xl font-bold">Welkom bij Jamin</h1>
             <p class="mt-5 text-lg leading-relaxed text-gray-600">Je project begint hier. Maak een account aan of log in om naar je dashboard te gaan.</p>
             <nav class="mt-8 flex flex-wrap gap-4" aria-label="Account">
+                <a href="{{ route('magazijn.index') }}" class="rounded-lg bg-red-700 px-6 py-3 font-semibold text-white hover:bg-red-800">Overzicht Magazijn Jamin</a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white hover:bg-indigo-700">Naar dashboard</a>
                 @else
