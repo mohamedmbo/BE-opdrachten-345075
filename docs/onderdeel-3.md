@@ -43,8 +43,8 @@ Gebruik bij een nieuwe installatie de Laravel-migraties en daarna **ofwel** het 
 
 Er zijn twee featurebranches volgens de opdracht: `feature_leveringsinformatie_product` en `feature_allergeneninformatie_product`. De wijzigingen worden na controle samengevoegd in `main`. De geschiedenis bevat meer dan twintig inhoudelijke commits.
 
-## Video en inleveren
+## Later bij onderdeel 3.3
 
-Maak een opname van maximaal 60 seconden. Volg `docs/video-opdracht-3.md` en bewaar de opname in `vids`. Publiceer de projectmap met Git-geschiedenis in een publieke GitHub-repository genaamd `BE-opdracht-1-STUDENTNUMMER`. Lever video en repositorylink in bij Canvas 3.3, uiterlijk **4 oktober 2026 om 23:00**.
+Onderdeel 3.2 is gereed. De opname en GitHub-publicatie horen bij onderdeel 3.3 en zijn daarom nu niet uitgevoerd. De voorbereidende instructies staan alvast in `docs/video-opdracht-3.md`.
 
 Bronnen: [Lesmateriaal 3.2](https://mboutrecht.instructure.com/courses/6142/pages/3-dot-2-lesmateriaal-realiseren-userstories-opdracht-1), [Inleveropdracht 3.3](https://mboutrecht.instructure.com/courses/6142/assignments/50354).
