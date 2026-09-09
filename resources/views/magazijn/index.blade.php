@@ -6,7 +6,7 @@
             <thead><tr>
                 <th scope="col">Barcode</th><th scope="col">Naam</th>
                 <th scope="col">Verpakkingseenheid (kg)</th><th scope="col">Aantal aanwezig</th>
-                <th scope="col">Leverantie Info</th>
+                <th scope="col">Allergenen Info</th><th scope="col">Leverantie Info</th>
             </tr></thead>
             <tbody>
                 @forelse ($producten as $product)
@@ -21,10 +21,11 @@
                                 <span class="geen-voorraad">Geen voorraad</span>
                             @endif
                         </td>
+                        <td><a class="icon-link icon-allergeen" href="{{ route('producten.allergenen', $product->Id) }}" aria-label="Allergenen Info {{ $product->Naam }}"><span aria-hidden="true">✚</span></a></td>
                         <td><a class="icon-link icon-levering" href="{{ route('producten.leveringen', $product->Id) }}" aria-label="Leverantie Info {{ $product->Naam }}">?</a></td>
                     </tr>
                 @empty
-                    <tr><td colspan="5">Er zijn nog geen producten aanwezig.</td></tr>
+                    <tr><td colspan="6">Er zijn nog geen producten aanwezig.</td></tr>
                 @endforelse
             </tbody>
         </table>
