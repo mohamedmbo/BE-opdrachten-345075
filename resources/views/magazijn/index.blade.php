@@ -21,7 +21,7 @@
                                 <span class="geen-voorraad">Geen voorraad</span>
                             @endif
                         </td>
-                        <td><a class="icon-link icon-levering" href="{{ url('/producten/'.$product->Id.'/leveringen') }}" aria-label="Leverantie Info {{ $product->Naam }}">?</a></td>
+                        <td><a class="icon-link icon-levering" href="{{ route('producten.leveringen', $product->Id) }}" aria-label="Leverantie Info {{ $product->Naam }}">?</a></td>
                     </tr>
                 @empty
                     <tr><td colspan="5">Er zijn nog geen producten aanwezig.</td></tr>
@@ -30,4 +30,3 @@
         </table>
     </div>
 </x-magazijn-layout>
-
