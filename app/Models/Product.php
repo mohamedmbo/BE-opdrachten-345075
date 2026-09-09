@@ -42,6 +42,20 @@ class Product
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function allergenen(int $id): array
+    {
+        $query = $this->database->prepare(
+            'SELECT a.Id, a.Naam, a.Omschrijving
+             FROM Allergeen a
+             JOIN ProductPerAllergeen pa ON pa.AllergeenId = a.Id
+             WHERE pa.ProductId = :id AND pa.IsActief = 1 AND a.IsActief = 1
+             ORDER BY a.Naam ASC, a.Id ASC'
+        );
+        $query->execute(['id' => $id]);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function vind(int $id): ?stdClass
     {
         $query = $this->database->prepare(
