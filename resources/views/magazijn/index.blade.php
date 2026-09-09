@@ -21,7 +21,7 @@
                                 <span class="geen-voorraad">Geen voorraad</span>
                             @endif
                         </td>
-                        <td><a class="icon-link icon-allergeen" href="{{ route('producten.allergenen', $product->Id) }}" aria-label="Allergenen Info {{ $product->Naam }}"><span aria-hidden="true">✚</span></a></td>
+                        <td><a class="icon-link icon-allergeen" href="{{ route('producten.allergenen', $product->Id) }}" aria-label="Allergenen Info {{ $product->Naam }}"><span aria-hidden="true">×</span></a></td>
                         <td><a class="icon-link icon-levering" href="{{ route('producten.leveringen', $product->Id) }}" aria-label="Leverantie Info {{ $product->Naam }}">?</a></td>
                     </tr>
                 @empty

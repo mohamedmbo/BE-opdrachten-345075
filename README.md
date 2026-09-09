@@ -1,6 +1,6 @@
 # Jamin - Backend leerjaar 2
 
-Project voor onderdeel **2. Projectmap inrichten** in Canvas.
+Project voor **periode 1: projectmap inrichten en userstories opdracht 1** in Canvas.
 Laravel 12 met Laravel Breeze (Blade) voor registreren, inloggen en profielbeheer.
 
 ## Opstarten op deze computer
@@ -9,7 +9,7 @@ Laravel 12 met Laravel Breeze (Blade) voor registreren, inloggen en profielbehee
 2. Open `C:\backend lj2\jamin` in VS Code.
 3. Open de terminal en voer `composer run dev` uit.
 4. Open http://localhost:8000.
-5. Kies **Registreren**, maak je eigen account en log in.
+5. Kies **Registreren**, maak je eigen account en log in. Open daarna **Overzicht Magazijn Jamin**.
 6. Stop de app met Ctrl+C in de terminal.
 
 De bestanden zijn al gebouwd. Als je alleen de website wilt starten, werkt ook `php artisan serve`.
@@ -72,6 +72,12 @@ De geautomatiseerde tests gebruiken een tijdelijke SQLite-database in het geheug
 - **2.3:** neem zelf de video op volgens `docs/video-opdracht-2.3.md` en lever hem in bij opdracht 2.3 in Canvas.
 - **2.4:** lever `db/createscript.sql` in bij opdracht 2.4 in Canvas.
 
-De userstories van onderdeel 3 vallen buiten deze projectinrichting.
+## Onderdeel 3
+
+De twee userstories met alle vier scenario's zijn gemaakt. Klik in het magazijn op een vraagteken voor leveringen of op een rood kruis voor allergenen. Bij Winegums zonder voorraad en Cola Flesjes zonder allergenen volgt na vier seconden een automatische terugkeer.
+
+Zie `docs/onderdeel-3.md` voor uitleg en `docs/video-opdracht-3.md` voor het opnamescript. De volledige databasespecificatie staat in `docs/database-specificatie.html` en `docs/database-specificatie.md`. De MySQL-export staat in `db/jamin-export.sql`; de aanvullende Laravel-structuur in `db/laravel-structuur.sql` bevat geen accountgegevens.
+
+Voor **3.3** moet je nog de video opnemen en samen met de publieke GitHub-link in Canvas inleveren. Periode 2 is niet uitgevoerd.
 
 Bronnen: [Canvas 2.3](https://mboutrecht.instructure.com/courses/6142/assignments/50311), [Canvas 2.4](https://mboutrecht.instructure.com/courses/6142/assignments/50315), [Laravel 12 installatie](https://laravel.com/docs/12.x/installation).
