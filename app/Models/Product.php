@@ -26,6 +26,22 @@ class Product
         )->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function leveringen(int $id): array
+    {
+        $query = $this->database->prepare(
+            'SELECT pl.Id, pl.DatumLevering, pl.Aantal, pl.DatumEerstVolgendeLevering,
+                    l.Id AS LeverancierId, l.Naam AS LeverancierNaam,
+                    l.ContactPersoon, l.LeverancierNummer, l.Mobiel
+             FROM ProductPerLeverancier pl
+             JOIN Leverancier l ON l.Id = pl.LeverancierId
+             WHERE pl.ProductId = :id AND pl.IsActief = 1 AND l.IsActief = 1
+             ORDER BY pl.DatumLevering ASC, pl.Id ASC'
+        );
+        $query->execute(['id' => $id]);
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function vind(int $id): ?stdClass
     {
         $query = $this->database->prepare(
@@ -39,4 +55,3 @@ class Product
         return $query->fetch(PDO::FETCH_OBJ) ?: null;
     }
 }
-
