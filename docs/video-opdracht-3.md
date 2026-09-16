@@ -1,6 +1,6 @@
 # Definitieve opname voor periode 1 opdracht 1
 
-Neem maximaal 60 seconden op. Zet vooraf Wamp aan, start de app en log in met je eigen account. Open ook phpMyAdmin met database laravel. Gebruik een breed browservenster zodat alle kolommen zichtbaar zijn.
+Neem maximaal 60 seconden op. Zet vooraf Wamp aan, start de app en log in met je eigen account. Open ook de MySQL-database `laravel`. Gebruik een breed browservenster zodat alle kolommen zichtbaar zijn.
 
 | Tijd | Wat je laat zien |
 |---|---|
@@ -9,7 +9,7 @@ Neem maximaal 60 seconden op. Zet vooraf Wamp aan, start de app en log in met je
 | 15 tot 23 seconden | Vraagteken bij Winegums: voorraadmelding; wacht de automatische terugkeer af |
 | 23 tot 31 seconden | Rood kruis bij Zoute Ruitjes: de drie allergenen; klik Terug |
 | 31 tot 39 seconden | Rood kruis bij Cola Flesjes: melding; wacht de automatische terugkeer af |
-| 39 tot 58 seconden | phpMyAdmin: de zes tabellen, gegevens en relaties in Designer of Relatieweergave |
+| 39 tot 58 seconden | MySQL-database `laravel`: de zes tabellen, gegevens en foreign-keyrelaties. De definitieve video markeert dit gedeelte zichtbaar als MySQL. |
 
 De opname staat als `vids/opdracht-1.mp4` in het project. De speelduur is 49 seconden en de video gebruikt H.264 in een MP4-bestand.
 

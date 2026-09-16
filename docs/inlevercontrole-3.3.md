@@ -16,6 +16,6 @@ Deze controle koppelt ieder voorschrift uit de bijlage aan het opgeleverde onder
 | Twee featurebranches | `feature_leveringsinformatie_product` en `feature_allergeneninformatie_product` bestaan en zijn samengevoegd in `main`. |
 | Database-export | `db/jamin-export.sql` bevat de zes tabellen, gegevens en relaties. |
 | Database Specificatie Tabel | Staat in `docs/database-specificatie.html` en `docs/database-specificatie.md`. |
-| Video maximaal 60 seconden | `vids/opdracht-1.mp4` duurt 49 seconden en toont de vier scenario's plus phpMyAdmin met tabellen, data en relaties. |
+| Video maximaal 60 seconden | `vids/opdracht-1.mp4` duurt 49 seconden en toont de vier scenario's plus de MySQL-database `laravel` met tabellen, data en relaties. Het databasegedeelte is duidelijk gemarkeerd als MySQL. |
 
 De scenariotekst noemt voor Winegums 30-04-2023, terwijl de meegeleverde specificatietabel 2024-10-30 bevat. De applicatie leest de datum uit de database en toont daarom 30-10-2024. Dit voorkomt een vaste datum in de view en houdt de applicatie datagestuurd.

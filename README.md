@@ -42,7 +42,7 @@ Het ontwikkelcommando is aangepast voor Windows: de Pail-logviewer vereist pcntl
 
 ## Database bekijken
 
-Open http://localhost/phpmyadmin. Kies MySQL, gebruiker `root` en een leeg wachtwoord als Wamp om inloggen vraagt. Open database `laravel`. Bij `users` zie je je account na registratie; het wachtwoord is gehasht.
+Open de MySQL-database `laravel` in MySQL Workbench of via phpMyAdmin. Gebruik de lokale Wamp-verbinding met gebruiker `root` en een leeg wachtwoord. Bij `users` zie je je account na registratie; het wachtwoord is gehasht.
 
 Het createscript is al uitgevoerd. Importeer het niet opnieuw in dezelfde gevulde database. Het verwijdert geen bestaande tabellen. De tabellen van Laravel staan naast de zes Jamin-tabellen.
 
@@ -56,7 +56,7 @@ npm.cmd ci
 npm.cmd run build
 ```
 
-Maak een lege MySQL-database `laravel`, controleer de DB-instellingen in `.env`, voer `php artisan migrate` uit en importeer daarna eenmalig `db/createscript.sql` via phpMyAdmin.
+Maak een lege MySQL-database `laravel`, controleer de DB-instellingen in `.env`, voer `php artisan migrate` uit en importeer daarna eenmalig `db/createscript.sql` met MySQL Workbench of phpMyAdmin.
 
 ## Controleren
 

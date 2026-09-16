@@ -7,7 +7,7 @@ De video moet laten zien dat Laravel werkt en MySQL gebruikt. Neem de werkende a
 3. Klik op Registreren en maak een account met je eigen naam en e-mailadres.
 4. Laat het dashboard zien met je naam.
 5. Log uit via het gebruikersmenu en log opnieuw in.
-6. Open http://localhost/phpmyadmin in een ander tabblad.
+6. Open database `laravel` in MySQL Workbench.
 7. Open database `laravel` en vervolgens tabel `users`. Laat zien dat je nieuwe account is opgeslagen. Je hoeft de wachtwoordhash niet te tonen.
 8. Laat bij Structuur zien dat de tabellen InnoDB gebruiken.
 9. Stop de opname en sla het bestand op in de map `vids`.
