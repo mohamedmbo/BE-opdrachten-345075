@@ -23,7 +23,7 @@ De bestanden zijn al gebouwd. Als je alleen de website wilt starten, werkt ook `
 - De zes Jamin-tabellen, hun sleutels, systeemvelden en alle gegeven oefengegevens.
 - `db`: het createscript voor opdracht 2.4.
 - `docs`: databasespecificatie en video-instructies.
-- `vids`: plek voor je eigen opname.
+- `vids`: de definitieve inlevervideo's.
 
 Het ontwikkelcommando is aangepast voor Windows: de Pail-logviewer vereist pcntl, dat op Windows niet beschikbaar is. De webserver, wachtrij en Vite starten wel samen.
 
@@ -72,6 +72,7 @@ De geautomatiseerde tests gebruiken een tijdelijke SQLite-database in het geheug
 - **2.3:** Laravel, registratie, inloggen en MySQL zijn ingericht.
 - **2.4:** het createscript staat in `db/createscript.sql`.
 - **3.2:** beide userstories met alle vier scenario's zijn volledig uitgewerkt.
+- **3.3:** de inlevervideo, database-export, documentatie en Git-geschiedenis zijn gereed.
 
 ## Onderdeel 3
 
@@ -79,6 +80,6 @@ De twee userstories met alle vier scenario's zijn gemaakt. Klik in het magazijn 
 
 Zie `docs/onderdeel-3.md` voor uitleg en `docs/video-opdracht-3.md` voor het opnamescript. De volledige databasespecificatie staat in `docs/database-specificatie.html` en `docs/database-specificatie.md`. De MySQL-export staat in `db/jamin-export.sql`; de aanvullende Laravel-structuur in `db/laravel-structuur.sql` bevat geen accountgegevens.
 
-Onderdeel **3.2 is gereed**. Onderdeel 3.3 en periode 2 zijn niet uitgevoerd.
+Onderdeel **3.3 is lokaal gereed**. De definitieve video staat in `vids/opdracht-1.mp4` en duurt 49 seconden. Periode 2 is niet uitgevoerd.
 
 Bronnen: [Canvas 2.3](https://mboutrecht.instructure.com/courses/6142/assignments/50311), [Canvas 2.4](https://mboutrecht.instructure.com/courses/6142/assignments/50315), [Laravel 12 installatie](https://laravel.com/docs/12.x/installation).

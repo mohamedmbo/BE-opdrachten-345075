@@ -43,8 +43,8 @@ Gebruik bij een nieuwe installatie de Laravel-migraties en daarna **ofwel** het 
 
 Er zijn twee featurebranches volgens de opdracht: `feature_leveringsinformatie_product` en `feature_allergeneninformatie_product`. De wijzigingen worden na controle samengevoegd in `main`. De geschiedenis bevat meer dan twintig inhoudelijke commits.
 
-## Later bij onderdeel 3.3
+## Onderdeel 3.3
 
-Onderdeel 3.2 is gereed. De opname en GitHub-publicatie horen bij onderdeel 3.3 en zijn daarom nu niet uitgevoerd. De voorbereidende instructies staan alvast in `docs/video-opdracht-3.md`.
+De definitieve opname staat in `vids/opdracht-1.mp4` en duurt 49 seconden. De opname toont alle vier de scenario's in de browser en daarna in phpMyAdmin de zes Jamin-tabellen, de gegevens en de foreign-keyrelaties. De Git-geschiedenis bevat meer dan twintig commits en de twee voorgeschreven featurebranches zijn aanwezig en samengevoegd in `main`.
 
 Bronnen: [Lesmateriaal 3.2](https://mboutrecht.instructure.com/courses/6142/pages/3-dot-2-lesmateriaal-realiseren-userstories-opdracht-1), [Inleveropdracht 3.3](https://mboutrecht.instructure.com/courses/6142/assignments/50354).

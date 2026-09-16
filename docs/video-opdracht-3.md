@@ -1,4 +1,4 @@
-# Opname voor periode 1 opdracht 1
+# Definitieve opname voor periode 1 opdracht 1
 
 Neem maximaal 60 seconden op. Zet vooraf Wamp aan, start de app en log in met je eigen account. Open ook phpMyAdmin met database laravel. Gebruik een breed browservenster zodat alle kolommen zichtbaar zijn.
 
@@ -11,6 +11,6 @@ Neem maximaal 60 seconden op. Zet vooraf Wamp aan, start de app en log in met je
 | 31 tot 39 seconden | Rood kruis bij Cola Flesjes: melding; wacht de automatische terugkeer af |
 | 39 tot 58 seconden | phpMyAdmin: de zes tabellen, gegevens en relaties in Designer of Relatieweergave |
 
-Sla de opname op als `vids/opdracht-1.mp4`. Voeg die daarna toe aan Git met `git add vids/opdracht-1.mp4`, maak een commit en push naar GitHub.
+De opname staat als `vids/opdracht-1.mp4` in het project. De speelduur is 49 seconden en de video gebruikt H.264 in een MP4-bestand.
 
-Lever in Canvas **3.3 Inleveren opdracht 1 voor 4 oktober 23:00** zowel de video als de publieke repositorylink in. Er is nog geen opname gemaakt of Canvas-inlevering uitgevoerd.
+Lever in Canvas **3.3 Inleveren opdracht 1 voor 4 oktober 23:00** zowel de video als de publieke repositorylink in.

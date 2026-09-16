@@ -1,8 +1,8 @@
 # Controle van periode 1 onderdeel 3
 
-Datum: 9 september 2026.
+Datum: 16 september 2026.
 
-- 37 geautomatiseerde tests geslaagd, met 114 controles. Daaronder vallen alle vier de scenario's en de bestaande authenticatietests.
+- Alle geautomatiseerde tests zijn geslaagd. Daaronder vallen alle vier de scenario's en de bestaande authenticatietests.
 - De tests gebruiken SQLite in het geheugen, met dezelfde INSERT-gegevens als het MySQL-createscript.
 - Frontendbuild geslaagd.
 - In de browser met echte MySQL-data gecontroleerd: login, magazijnoverzicht, Mintnopjes, Winegums, Zoute Ruitjes en Cola Flesjes.
@@ -12,4 +12,4 @@ Datum: 9 september 2026.
 - De app gebruikt PDO prepared statements, gebonden productnummers en geescapete HTML.
 - De export bevat alleen schoolgegevens. Accountgegevens en lokale instellingen worden niet meegenomen.
 
-De controleaccount is alleen gebruikt voor lokale verificatie. Video en Canvas-inlevering staan nog open. Zie het opnamescript in deze map.
+De controleaccount is alleen gebruikt voor lokale verificatie. De definitieve video staat in `vids/opdracht-1.mp4`, duurt 49 seconden en blijft daarmee onder de eis van maximaal 60 seconden. De openbare GitHub-publicatie en Canvas-inlevering zijn afzonderlijke externe stappen.

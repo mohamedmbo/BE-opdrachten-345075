@@ -13,4 +13,6 @@ De video moet laten zien dat Laravel werkt en MySQL gebruikt. Neem de werkende a
 9. Stop de opname en sla het bestand op in de map `vids`.
 10. Lever de opname in bij **2.3 Laravel installeren** in Canvas.
 
-De video is nog niet opgenomen of ingeleverd. Je SQL-bestand voor opdracht 2.4 staat al in `db/createscript.sql`.
+De definitieve opname staat in `vids/2.3-laravel-gebruikersrollen.mp4` (11 september 2026). Deze toont vijf registraties met het veld `rolename`, uitloggen, opnieuw inloggen, de rollen op het dashboard en MySQL Workbench met database `laravel`, tabel `users` en de geregistreerde rollen. De vijf voorbeeldrollen uit de aangeleverde les zijn tandarts, mondhygienist, assistent, praktijkmanagement en patient. Rollen worden in deze oefening opgeslagen als tekst; er worden geen extra toegangsrechten aan gekoppeld.
+
+De installatie was al uitgevoerd en wordt niet opnieuw geïnstalleerd in de video. De video is op 11 september 2026 ingeleverd in Canvas. Het SQL-bestand voor opdracht 2.4 staat in `db/createscript.sql`.
