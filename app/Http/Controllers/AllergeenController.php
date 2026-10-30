@@ -16,4 +16,3 @@ class AllergeenController extends Controller
         return view('magazijn.allergenen', compact('product', 'allergenen'));
     }
 }
-

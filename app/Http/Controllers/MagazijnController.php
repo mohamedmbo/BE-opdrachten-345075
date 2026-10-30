@@ -12,4 +12,3 @@ class MagazijnController extends Controller
         return view('magazijn.index', ['producten' => $producten->overzicht()]);
     }
 }
-

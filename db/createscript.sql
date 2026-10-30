@@ -1,9 +1,22 @@
--- Backend leerjaar 2 - onderdeel 2.4 - Jamin
--- Importeer eenmalig in de database laravel (MySQL / phpMyAdmin).
--- Bestaande tabellen worden bewust niet verwijderd.
-USE laravel;
+-- Backend leerjaar 2 - opdracht 2 - Jamin (studentnummer 345075)
+-- Uitvoeren in MySQL Workbench. Dit script bouwt de database reproduceerbaar op.
+CREATE DATABASE IF NOT EXISTS jamin_opdracht2
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE jamin_opdracht2;
 SET NAMES utf8mb4;
 SET SESSION default_storage_engine = InnoDB;
+
+SET FOREIGN_KEY_CHECKS = 0;
+DROP PROCEDURE IF EXISTS sp_VoegProductLeveringToe;
+DROP PROCEDURE IF EXISTS sp_GetGeleverdeProducten;
+DROP PROCEDURE IF EXISTS sp_GetLeveranciersOverzicht;
+DROP TABLE IF EXISTS ProductPerLeverancier;
+DROP TABLE IF EXISTS ProductPerAllergeen;
+DROP TABLE IF EXISTS Magazijn;
+DROP TABLE IF EXISTS Leverancier;
+DROP TABLE IF EXISTS Allergeen;
+DROP TABLE IF EXISTS Product;
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- STAMTABELLEN: eerst de tabellen zonder foreign keys.
 CREATE TABLE Product (
@@ -11,7 +24,7 @@ CREATE TABLE Product (
     Naam VARCHAR(100) NOT NULL,
     Barcode CHAR(13) NOT NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id),
@@ -23,7 +36,7 @@ CREATE TABLE Allergeen (
     Naam VARCHAR(100) NOT NULL,
     Omschrijving VARCHAR(250) NOT NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id)
@@ -36,7 +49,7 @@ CREATE TABLE Leverancier (
     LeverancierNummer VARCHAR(20) NOT NULL,
     Mobiel VARCHAR(20) NOT NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id),
@@ -50,7 +63,7 @@ CREATE TABLE Magazijn (
     VerpakkingsEenheid DECIMAL(6,2) UNSIGNED NOT NULL,
     AantalAanwezig INT UNSIGNED NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id),
@@ -63,7 +76,7 @@ CREATE TABLE ProductPerAllergeen (
     ProductId INT UNSIGNED NOT NULL,
     AllergeenId INT UNSIGNED NOT NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id),
@@ -80,7 +93,7 @@ CREATE TABLE ProductPerLeverancier (
     Aantal INT UNSIGNED NOT NULL,
     DatumEerstVolgendeLevering DATE NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
-    Opmerking VARCHAR(250) NULL,
+    Opmerking VARCHAR(255) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     DatumGewijzigd DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (Id),
@@ -90,20 +103,20 @@ CREATE TABLE ProductPerLeverancier (
 
 -- Gegeven oefengegevens uit J2-Opdr1-BE-2026-P1-IO-SD2509AB.docx.
 START TRANSACTION;
-INSERT INTO Product (Id, Naam, Barcode) VALUES
-(1, 'Mintnopjes', '8719587231278'),
-(2, 'Schoolkrijt', '8719587326713'),
-(3, 'Honingdrop', '8719587327836'),
-(4, 'Zure Beren', '8719587321441'),
-(5, 'Cola Flesjes', '8719587321237'),
-(6, 'Turtles', '8719587322245'),
-(7, 'Witte Muizen', '8719587328256'),
-(8, 'Reuzen Slangen', '8719587325641'),
-(9, 'Zoute Rijen', '8719587322739'),
-(10, 'Winegums', '8719587327527'),
-(11, 'Drop Munten', '8719587322345'),
-(12, 'Kruis Drop', '8719587322265'),
-(13, 'Zoute Ruitjes', '8719587323256');
+INSERT INTO Product (Id, Naam, Barcode, IsActief) VALUES
+(1, 'Mintnopjes', '8719587231278', b'1'),
+(2, 'Schoolkrijt', '8719587326713', b'1'),
+(3, 'Honingdrop', '8719587327836', b'1'),
+(4, 'Zure Beren', '8719587321441', b'1'),
+(5, 'Cola Flesjes', '8719587321237', b'1'),
+(6, 'Turtles', '8719587322245', b'1'),
+(7, 'Witte Muizen', '8719587328256', b'1'),
+(8, 'Reuzen Slangen', '8719587325641', b'1'),
+(9, 'Zoute Rijen', '8719587322739', b'1'),
+(10, 'Winegums', '8719587327527', b'0'),
+(11, 'Drop Munten', '8719587322345', b'1'),
+(12, 'Kruis Drop', '8719587322265', b'1'),
+(13, 'Zoute Ruitjes', '8719587323256', b'1');
 
 INSERT INTO Allergeen (Id, Naam, Omschrijving) VALUES
 (1, 'Gluten', 'Dit product bevat gluten'),
@@ -117,7 +130,8 @@ INSERT INTO Leverancier (Id, Naam, ContactPersoon, LeverancierNummer, Mobiel) VA
 (2, 'Astra Sweets', 'Jasper del Monte', 'L1029284315', '06-39398734'),
 (3, 'Haribo', 'Sven Stalman', 'L1029324748', '06-24383291'),
 (4, 'Basset', 'Joyce Stelterberg', 'L1023845773', '06-48293823'),
-(5, 'De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234');
+(5, 'De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234'),
+(6, 'Quality Street', 'Johan Nooij', 'L1029234586', '06-23458456');
 
 INSERT INTO Magazijn (Id, ProductId, VerpakkingsEenheid, AantalAanwezig) VALUES
 (1,1,5,453), (2,2,2.5,400), (3,3,5,1), (4,4,1,800),
@@ -131,21 +145,77 @@ INSERT INTO ProductPerAllergeen (Id, ProductId, AllergeenId) VALUES
 -- In de bron komt Id 14 tweemaal voor. De laatste drie Id's zijn 15, 16, 17.
 INSERT INTO ProductPerLeverancier
 (Id, LeverancierId, ProductId, DatumLevering, Aantal, DatumEerstVolgendeLevering) VALUES
-(1,1,1,'2024-10-09',23,'2024-10-16'),
-(2,1,1,'2024-10-18',21,'2024-10-25'),
-(3,1,2,'2024-10-09',12,'2024-10-16'),
-(4,1,3,'2024-10-10',11,'2024-10-17'),
-(5,2,4,'2024-10-14',16,'2024-10-21'),
-(6,2,4,'2024-10-21',23,'2024-10-28'),
-(7,2,5,'2024-10-14',45,'2024-10-21'),
-(8,2,6,'2024-10-14',30,'2024-10-21'),
-(9,3,7,'2024-10-12',12,'2024-10-19'),
-(10,3,7,'2024-10-19',23,'2024-10-26'),
-(11,3,8,'2024-10-10',12,'2024-10-17'),
-(12,3,9,'2024-10-11',1,'2024-10-18'),
-(13,4,10,'2024-10-16',24,'2024-10-30'),
-(14,5,11,'2024-10-10',47,'2024-10-17'),
-(15,5,11,'2024-10-19',60,'2024-10-26'),
-(16,5,12,'2024-10-11',45,NULL),
-(17,5,13,'2024-10-12',23,NULL);
+(1,1,1,'2024-11-09',23,'2024-11-16'),
+(2,1,1,'2024-11-18',21,'2024-11-25'),
+(3,1,2,'2024-11-09',12,'2024-11-16'),
+(4,1,3,'2024-11-10',11,'2024-11-17'),
+(5,2,4,'2024-11-14',16,'2024-11-21'),
+(6,2,4,'2024-11-21',23,'2024-11-28'),
+(7,2,5,'2024-11-14',45,'2024-11-21'),
+(8,2,6,'2024-11-14',30,'2024-11-21'),
+(9,3,7,'2024-11-12',12,'2024-11-19'),
+(10,3,7,'2024-11-19',23,'2024-11-26'),
+(11,3,8,'2024-11-10',12,'2024-11-17'),
+(12,3,9,'2024-11-11',1,'2024-11-18'),
+(13,4,10,'2024-11-16',24,'2024-11-30'),
+(14,5,11,'2024-11-10',47,'2024-11-17'),
+(15,5,11,'2024-11-19',60,'2024-11-26'),
+(16,5,12,'2024-11-11',45,NULL),
+(17,5,13,'2024-11-12',23,NULL);
 COMMIT;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_GetLeveranciersOverzicht()
+BEGIN
+    SELECT l.Id, l.Naam, l.ContactPersoon, l.LeverancierNummer, l.Mobiel,
+           COUNT(DISTINCT ppl.ProductId) AS AantalVerschillendeProducten
+    FROM Leverancier l
+    LEFT JOIN ProductPerLeverancier ppl
+      ON ppl.LeverancierId = l.Id AND ppl.IsActief = b'1'
+    WHERE l.IsActief = b'1'
+    GROUP BY l.Id, l.Naam, l.ContactPersoon, l.LeverancierNummer, l.Mobiel
+    ORDER BY AantalVerschillendeProducten DESC, l.Naam ASC;
+END$$
+
+CREATE PROCEDURE sp_GetGeleverdeProducten(IN p_LeverancierId INT UNSIGNED)
+BEGIN
+    SELECT p.Id, p.Naam, p.IsActief,
+           m.AantalAanwezig, m.VerpakkingsEenheid,
+           MAX(ppl.DatumLevering) AS LaatsteLevering
+    FROM ProductPerLeverancier ppl
+    INNER JOIN Product p ON p.Id = ppl.ProductId
+    LEFT JOIN Magazijn m ON m.ProductId = p.Id AND m.IsActief = b'1'
+    WHERE ppl.LeverancierId = p_LeverancierId AND ppl.IsActief = b'1'
+    GROUP BY p.Id, p.Naam, p.IsActief, m.AantalAanwezig, m.VerpakkingsEenheid
+    ORDER BY m.AantalAanwezig DESC, p.Naam ASC;
+END$$
+
+CREATE PROCEDURE sp_VoegProductLeveringToe(
+    IN p_LeverancierId INT UNSIGNED,
+    IN p_ProductId INT UNSIGNED,
+    IN p_Aantal INT UNSIGNED,
+    IN p_DatumEerstVolgendeLevering DATE
+)
+BEGIN
+    DECLARE v_IsActief BIT DEFAULT b'0';
+    DECLARE v_NieuwId INT UNSIGNED;
+
+    SELECT IsActief INTO v_IsActief FROM Product WHERE Id = p_ProductId;
+    IF v_IsActief = b'0' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'PRODUCT_NIET_ACTIEF';
+    END IF;
+
+    START TRANSACTION;
+    SELECT COALESCE(MAX(Id), 0) + 1 INTO v_NieuwId FROM ProductPerLeverancier FOR UPDATE;
+    INSERT INTO ProductPerLeverancier
+      (Id, LeverancierId, ProductId, DatumLevering, Aantal, DatumEerstVolgendeLevering)
+    VALUES
+      (v_NieuwId, p_LeverancierId, p_ProductId, CURRENT_DATE(), p_Aantal, p_DatumEerstVolgendeLevering);
+    UPDATE Magazijn
+       SET AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
+     WHERE ProductId = p_ProductId AND IsActief = b'1';
+    COMMIT;
+END$$
+
+DELIMITER ;

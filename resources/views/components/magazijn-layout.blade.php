@@ -10,15 +10,16 @@
 <body class="magazijn-app">
     <a href="#inhoud" class="skip-link">Naar inhoud</a>
     <header class="magazijn-header">
-        <a class="jamin-merk" href="{{ route('magazijn.index') }}">jamin<span>Magazijn</span></a>
+        <a class="jamin-merk" href="{{ route('dashboard') }}">jamin<span>Leveranciers</span></a>
         <nav aria-label="Hoofdnavigatie">
             <a href="{{ route('magazijn.index') }}">Producten</a>
+            <a href="{{ route('leveranciers.index') }}">Leveranciers</a>
             <a href="{{ route('dashboard') }}">Mijn account</a>
             <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit">Uitloggen</button></form>
         </nav>
     </header>
     <main id="inhoud" class="magazijn-main">
-        <p class="eyebrow">Jamin · Voorraad &amp; productinformatie</p>
+        <p class="eyebrow">Jamin · Leveranciers &amp; productleveringen</p>
         <h1>{{ $title }}</h1>
         {{ $slot }}
     </main>

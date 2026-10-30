@@ -24,11 +24,12 @@ abstract class MagazijnTestCase extends TestCase
             CREATE TABLE ProductPerAllergeen (Id INTEGER PRIMARY KEY, ProductId INTEGER REFERENCES Product(Id), AllergeenId INTEGER REFERENCES Allergeen(Id), IsActief INTEGER DEFAULT 1);
         ');
 
-        // Test dezelfde oefengegevens die ook in MySQL zijn ingelezen.
-        preg_match_all('/INSERT INTO .*?;/s', file_get_contents(base_path('db/createscript.sql')), $inserts);
+        // Test exact het gegevensblok uit het MySQL Workbench-createscript.
+        $script = file_get_contents(base_path('db/createscript.sql'));
+        preg_match('/START TRANSACTION;(.*?)COMMIT;/s', $script, $gegevensblok);
+        preg_match_all('/INSERT INTO .*?;/s', $gegevensblok[1], $inserts);
         foreach ($inserts[0] as $insert) {
-            DB::unprepared($insert);
+            DB::unprepared(str_replace(["b'1'", "b'0'"], ['1', '0'], $insert));
         }
     }
 }
-
