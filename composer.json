@@ -1,8 +1,8 @@
 {
   "$schema": "https://getcomposer.org/schema.json",
-  "name": "laravel/laravel",
+  "name": "mohamedmbo/be-opdracht-2-345075",
   "type": "project",
-  "description": "The skeleton application for the Laravel framework.",
+  "description": "Jamin leveranciersapplicatie voor Backend opdracht 2.",
   "keywords": [
     "laravel",
     "framework"
