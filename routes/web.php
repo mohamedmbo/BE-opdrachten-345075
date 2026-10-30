@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\AllergeenController;
+use App\Http\Controllers\LeverancierController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
+    Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
+    Route::get('/leveranciers/{leverancier}/producten', [LeverancierController::class, 'show'])
+        ->whereNumber('leverancier')->name('leveranciers.producten');
     Route::get('/producten/{id}/allergenen', [AllergeenController::class, 'show'])
         ->whereNumber('id')->name('producten.allergenen');
     Route::get('/producten/{id}/leveringen', [LeveringController::class, 'show'])
