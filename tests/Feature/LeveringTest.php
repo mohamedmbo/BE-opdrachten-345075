@@ -41,4 +41,3 @@ class LeveringTest extends MagazijnTestCase
             ->assertDontSee('data-terug-url', false);
     }
 }
-

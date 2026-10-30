@@ -49,4 +49,3 @@ class MagazijnTest extends MagazijnTestCase
             ->assertDontSee('<script>alert(1)</script>', false);
     }
 }
-

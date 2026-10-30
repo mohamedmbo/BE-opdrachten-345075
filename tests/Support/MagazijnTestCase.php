@@ -33,4 +33,3 @@ abstract class MagazijnTestCase extends TestCase
         }
     }
 }
-

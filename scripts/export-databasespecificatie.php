@@ -1,10 +1,13 @@
 <?php
 
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+
 require __DIR__.'/../vendor/autoload.php';
 $app = require __DIR__.'/../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$app->make(Kernel::class)->bootstrap();
 
-$pdo = Illuminate\Support\Facades\DB::connection()->getPdo();
+$pdo = DB::connection()->getPdo();
 $tabellen = ['Product', 'Allergeen', 'Leverancier', 'Magazijn', 'ProductPerAllergeen', 'ProductPerLeverancier'];
 $html = '<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Database specificatie Jamin</title><style>
 body{font:15px/1.5 Arial,sans-serif;color:#222;background:#f5f5f4;margin:0}
@@ -44,7 +47,9 @@ foreach ($tabellen as $tabel) {
             'bit' => 1,
             default => '-',
         };
-        $opmerking = match ($kolom['COLUMN_KEY']) { 'PRI' => 'PK; automatisch oplopend', 'UNI' => 'Uniek', default => '' };
+        $opmerking = match ($kolom['COLUMN_KEY']) {
+            'PRI' => 'PK; automatisch oplopend', 'UNI' => 'Uniek', default => ''
+        };
         $fk = $pdo->prepare('SELECT REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :tabel AND COLUMN_NAME = :kolom AND REFERENCED_TABLE_NAME IS NOT NULL');
         $fk->execute(['tabel' => $tabel, 'kolom' => $naam]);
         if ($relatie = $fk->fetch(PDO::FETCH_ASSOC)) {

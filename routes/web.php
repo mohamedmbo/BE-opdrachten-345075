@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MagazijnController;
-use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\AllergeenController;
 use App\Http\Controllers\LeverancierController;
+use App\Http\Controllers\LeveringController;
+use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\ProductLeveringController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

@@ -32,4 +32,3 @@ class AllergeenTest extends MagazijnTestCase
         $this->get('/producten/13/allergenen')->assertOk()->assertDontSee('Gluten')->assertSee('Lactose');
     }
 }
-
