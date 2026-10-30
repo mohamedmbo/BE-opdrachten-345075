@@ -5,6 +5,7 @@ use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\AllergeenController;
 use App\Http\Controllers\LeverancierController;
+use App\Http\Controllers\ProductLeveringController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
     Route::get('/leveranciers/{leverancier}/producten', [LeverancierController::class, 'show'])
         ->whereNumber('leverancier')->name('leveranciers.producten');
+    Route::get('/leveranciers/{leverancier}/producten/{product}/levering', [ProductLeveringController::class, 'create'])
+        ->whereNumber(['leverancier', 'product'])->name('leveringen.create');
+    Route::post('/leveranciers/{leverancier}/producten/{product}/levering', [ProductLeveringController::class, 'store'])
+        ->whereNumber(['leverancier', 'product'])->name('leveringen.store');
     Route::get('/producten/{id}/allergenen', [AllergeenController::class, 'show'])
         ->whereNumber('id')->name('producten.allergenen');
     Route::get('/producten/{id}/leveringen', [LeveringController::class, 'show'])

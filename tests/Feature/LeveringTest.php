@@ -14,17 +14,14 @@ class LeveringTest extends MagazijnTestCase
         $this->get('/producten/1/leveringen')->assertOk()
             ->assertSee('Venco')->assertSee('Bert van Linge')
             ->assertSee('L1029384719')->assertSee('06-28493827')
-            ->assertSeeInOrder(['09-10-2024', '23', '16-10-2024', '18-10-2024', '21', '25-10-2024'])
+            ->assertSeeInOrder(['09-11-2024', '23', '16-11-2024', '18-11-2024', '21', '25-11-2024'])
             ->assertDontSee('data-terug-url', false);
     }
 
-    public function test_winegums_toont_voorraadmelding_en_vier_seconden_terugkeer(): void
+    public function test_inactieve_winegums_is_niet_bereikbaar_via_oud_productscherm(): void
     {
         $this->actingAs(User::factory()->create());
-        $this->get('/producten/10/leveringen')->assertOk()
-            ->assertSee('Er is van dit product op dit moment geen voorraad aanwezig')
-            ->assertSee('30-10-2024')->assertSee('seconden: 4', false)
-            ->assertSee('data-terug-url', false)->assertDontSee('16-10-2024');
+        $this->get('/producten/10/leveringen')->assertNotFound();
     }
 
     public function test_nul_voorraad_en_onbekende_planning_worden_afgehandeld(): void

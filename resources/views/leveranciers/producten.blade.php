@@ -6,6 +6,10 @@
         <div><dt>Mobiel</dt><dd>{{ $leverancier->Mobiel }}</dd></div>
     </dl>
 
+    @if (session('succes'))
+        <div class="status-melding status-succes" role="status">{{ session('succes') }}</div>
+    @endif
+
     <div class="table-wrap">
         @if (count($producten) === 0)
             <div class="lege-leverancier" role="status">
