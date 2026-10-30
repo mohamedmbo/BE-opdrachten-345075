@@ -22,6 +22,8 @@ productleveringen volgens de vier wireframes uit de officiële Canvas-bijlage.
 5. Start met `composer run dev`.
 
 De officiële opdrachtbijlage en databasespecificatie staan in `docs`.
+De gecontroleerde inlevervideo van 49 seconden staat in
+`docs/Jamin-opdracht-2-345075.mp4`.
 
 ## Git-workflow
 
