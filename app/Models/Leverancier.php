@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 use PDO;
+use PDOException;
 use stdClass;
 
 /** PDO-gegevenslaag voor de leveranciersschermen van opdracht 2. */
@@ -90,5 +91,63 @@ class Leverancier
         ]);
 
         return $statement->fetch(PDO::FETCH_OBJ) ?: null;
+    }
+
+    public function voegLeveringToe(
+        int $leverancierId,
+        int $productId,
+        int $aantal,
+        string $datumEerstvolgendeLevering,
+    ): bool {
+        $product = $this->product($leverancierId, $productId);
+        if ($product === null || ! (bool) $product->IsActief) {
+            return false;
+        }
+
+        if ($this->database->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            try {
+                $statement = $this->database->prepare(
+                    'CALL sp_VoegProductLeveringToe(:leverancierId, :productId, :aantal, :datum)'
+                );
+                $statement->execute([
+                    'leverancierId' => $leverancierId,
+                    'productId' => $productId,
+                    'aantal' => $aantal,
+                    'datum' => $datumEerstvolgendeLevering,
+                ]);
+                $statement->closeCursor();
+
+                return true;
+            } catch (PDOException $exception) {
+                if (str_contains($exception->getMessage(), 'PRODUCT_NIET_ACTIEF')) {
+                    return false;
+                }
+
+                throw $exception;
+            }
+        }
+
+        DB::transaction(function () use ($leverancierId, $productId, $aantal, $datumEerstvolgendeLevering): void {
+            $statement = $this->database->prepare(
+                'INSERT INTO ProductPerLeverancier
+                 (LeverancierId, ProductId, DatumLevering, Aantal, DatumEerstVolgendeLevering, IsActief)
+                 VALUES (:leverancierId, :productId, :datumLevering, :aantal, :datumVolgende, 1)'
+            );
+            $statement->execute([
+                'leverancierId' => $leverancierId,
+                'productId' => $productId,
+                'datumLevering' => now()->format('Y-m-d'),
+                'aantal' => $aantal,
+                'datumVolgende' => $datumEerstvolgendeLevering,
+            ]);
+
+            $update = $this->database->prepare(
+                'UPDATE Magazijn SET AantalAanwezig = COALESCE(AantalAanwezig, 0) + :aantal
+                 WHERE ProductId = :productId AND IsActief = 1'
+            );
+            $update->execute(['aantal' => $aantal, 'productId' => $productId]);
+        });
+
+        return true;
     }
 }
