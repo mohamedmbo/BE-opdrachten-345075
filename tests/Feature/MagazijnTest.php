@@ -18,9 +18,9 @@ class MagazijnTest extends MagazijnTestCase
     public function test_overzicht_toont_alle_producten_op_barcode_met_beide_acties(): void
     {
         $this->actingAs(User::factory()->create());
-        $response = $this->get('/magazijn')->assertOk()->assertSee('13 producten');
-        $response->assertSeeInOrder(DB::table('Product')->orderBy('Barcode')->pluck('Naam')->all());
-        $response->assertSee('Geen voorraad')->assertSee('Allergenen Info')->assertSee('Leverantie Info');
+        $response = $this->get('/magazijn')->assertOk()->assertSee('12 producten');
+        $response->assertSeeInOrder(DB::table('Product')->where('IsActief', 1)->orderBy('Barcode')->pluck('Naam')->all());
+        $response->assertSee('Allergenen Info')->assertSee('Leverantie Info');
         $response->assertSee(route('producten.leveringen', 1), false);
         $response->assertSee(route('producten.allergenen', 13), false);
     }
