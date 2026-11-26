@@ -1,0 +1,29 @@
+<mxfile host="app.diagrams.net" version="28.0.6">
+  <diagram id="opdracht3" name="Pagina-1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="controller" value="LeverancierController|+ wijzigIndex(Request, Leverancier): View&#xa;+ details(int, Leverancier): View&#xa;+ edit(int, Leverancier): View&#xa;+ update(UpdateLeverancierRequest, int, Leverancier): View" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="420" y="70" width="380" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="model" value="Leverancier|− database: PDO&#xa;+ wijzigOverzicht(int, int): LengthAwarePaginator&#xa;+ details(int): ?stdClass&#xa;+ wijzig(int, array): bool" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="350" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="request" value="UpdateLeverancierRequest|+ authorize(): bool&#xa;+ rules(): array" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="450" y="350" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="support" value="LeverancierGegevens|+ normaliseerPostcode(string): string" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="810" y="350" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="view" value="Blade views|wijzigen-index.blade.php&#xa;details.blade.php&#xa;wijzigen.blade.php" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="450" y="590" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="gebruikt" style="endArrow=open;html=1;rounded=0;" edge="1" parent="1" source="controller" target="model"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="valideert met" style="endArrow=open;html=1;rounded=0;" edge="1" parent="1" source="controller" target="request"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="normaliseert met" style="endArrow=open;html=1;rounded=0;" edge="1" parent="1" source="controller" target="support"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" value="toont" style="endArrow=open;html=1;rounded=0;" edge="1" parent="1" source="controller" target="view"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

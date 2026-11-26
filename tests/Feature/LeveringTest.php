@@ -14,7 +14,7 @@ class LeveringTest extends MagazijnTestCase
         $this->get('/producten/1/leveringen')->assertOk()
             ->assertSee('Venco')->assertSee('Bert van Linge')
             ->assertSee('L1029384719')->assertSee('06-28493827')
-            ->assertSeeInOrder(['09-11-2024', '23', '16-11-2024', '18-11-2024', '21', '25-11-2024'])
+            ->assertSeeInOrder(['09-11-2023', '23', '16-11-2023', '18-11-2023', '21', '25-11-2023'])
             ->assertDontSee('data-terug-url', false);
     }
 

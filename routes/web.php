@@ -21,6 +21,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
     Route::get('/leveranciers/{leverancier}/producten', [LeverancierController::class, 'show'])
         ->whereNumber('leverancier')->name('leveranciers.producten');
+    Route::get('/manager/leveranciers', [LeverancierController::class, 'wijzigIndex'])
+        ->name('leveranciers.wijzigen.index');
+    Route::get('/manager/leveranciers/{leverancier}', [LeverancierController::class, 'details'])
+        ->whereNumber('leverancier')->name('leveranciers.wijzigen.details');
+    Route::get('/manager/leveranciers/{leverancier}/wijzigen', [LeverancierController::class, 'edit'])
+        ->whereNumber('leverancier')->name('leveranciers.wijzigen.edit');
+    Route::patch('/manager/leveranciers/{leverancier}', [LeverancierController::class, 'update'])
+        ->whereNumber('leverancier')->name('leveranciers.wijzigen.update');
     Route::get('/leveranciers/{leverancier}/producten/{product}/levering', [ProductLeveringController::class, 'create'])
         ->whereNumber(['leverancier', 'product'])->name('leveringen.create');
     Route::post('/leveranciers/{leverancier}/producten/{product}/levering', [ProductLeveringController::class, 'store'])
