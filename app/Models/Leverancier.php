@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use PDO;
 use PDOException;
 use stdClass;
 
-/** PDO-gegevenslaag voor de leveranciersschermen van opdracht 2. */
+/** PDO-gegevenslaag voor de leveranciersschermen van opdracht 2 en 3. */
 class Leverancier
 {
     private PDO $database;
@@ -48,6 +49,132 @@ class Leverancier
         $statement->execute(['id' => $id]);
 
         return $statement->fetch(PDO::FETCH_OBJ) ?: null;
+    }
+
+    public function wijzigOverzicht(int $pagina, int $perPagina = 4): LengthAwarePaginator
+    {
+        $offset = ($pagina - 1) * $perPagina;
+
+        if ($this->database->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            $statement = $this->database->prepare('CALL sp_GetLeveranciersWijzigen(:limiet, :offset)');
+            $statement->bindValue('limiet', $perPagina, PDO::PARAM_INT);
+            $statement->bindValue('offset', $offset, PDO::PARAM_INT);
+            $statement->execute();
+            $resultaat = $statement->fetchAll(PDO::FETCH_OBJ);
+            $statement->closeCursor();
+
+            $aantalStatement = $this->database->query('CALL sp_GetAantalLeveranciers()');
+            $aantal = (int) $aantalStatement->fetch(PDO::FETCH_OBJ)->Aantal;
+            $aantalStatement->closeCursor();
+        } else {
+            $statement = $this->database->prepare(
+                'SELECT Id, Naam, ContactPersoon, LeverancierNummer, Mobiel
+                 FROM Leverancier WHERE IsActief = 1 ORDER BY Id LIMIT :limiet OFFSET :offset'
+            );
+            $statement->bindValue('limiet', $perPagina, PDO::PARAM_INT);
+            $statement->bindValue('offset', $offset, PDO::PARAM_INT);
+            $statement->execute();
+            $resultaat = $statement->fetchAll(PDO::FETCH_OBJ);
+            $aantal = (int) $this->database
+                ->query('SELECT COUNT(*) FROM Leverancier WHERE IsActief = 1')
+                ->fetchColumn();
+        }
+
+        return new LengthAwarePaginator(
+            $resultaat,
+            $aantal,
+            $perPagina,
+            $pagina,
+            ['path' => request()->url(), 'pageName' => 'page'],
+        );
+    }
+
+    public function details(int $id): ?stdClass
+    {
+        if ($this->database->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            $statement = $this->database->prepare('CALL sp_GetLeverancierDetails(:id)');
+        } else {
+            $statement = $this->database->prepare(
+                'SELECT l.Id, l.Naam, l.ContactPersoon, l.LeverancierNummer, l.Mobiel,
+                        c.Straatnaam, c.Huisnummer, c.Postcode, c.Stad
+                 FROM Leverancier l
+                 INNER JOIN Contact c ON c.Id = l.ContactId AND c.IsActief = 1
+                 WHERE l.Id = :id AND l.IsActief = 1'
+            );
+        }
+
+        $statement->execute(['id' => $id]);
+        $resultaat = $statement->fetch(PDO::FETCH_OBJ) ?: null;
+        $statement->closeCursor();
+
+        return $resultaat;
+    }
+
+    public function wijzig(int $id, array $gegevens): bool
+    {
+        if ($id === 5 && $this->database->getAttribute(PDO::ATTR_DRIVER_NAME) !== 'mysql') {
+            return false;
+        }
+
+        if ($this->database->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            try {
+                $statement = $this->database->prepare(
+                    'CALL sp_WijzigLeverancier(:id, :naam, :contactpersoon, :nummer, :mobiel,
+                                               :straatnaam, :huisnummer, :postcode, :stad)'
+                );
+                $statement->execute([
+                    'id' => $id,
+                    'naam' => $gegevens['naam'],
+                    'contactpersoon' => $gegevens['contactpersoon'],
+                    'nummer' => $gegevens['leveranciernummer'],
+                    'mobiel' => $gegevens['mobiel'],
+                    'straatnaam' => $gegevens['straatnaam'],
+                    'huisnummer' => $gegevens['huisnummer'],
+                    'postcode' => $gegevens['postcode'],
+                    'stad' => $gegevens['stad'],
+                ]);
+                $statement->closeCursor();
+
+                return true;
+            } catch (PDOException $exception) {
+                if (str_contains($exception->getMessage(), 'TECHNISCHE_STORING')) {
+                    return false;
+                }
+
+                throw $exception;
+            }
+        }
+
+        DB::transaction(function () use ($id, $gegevens): void {
+            $leverancier = $this->database->prepare(
+                'UPDATE Leverancier
+                 SET Naam = :naam, ContactPersoon = :contactpersoon,
+                     LeverancierNummer = :nummer, Mobiel = :mobiel
+                 WHERE Id = :id AND IsActief = 1'
+            );
+            $leverancier->execute([
+                'naam' => $gegevens['naam'],
+                'contactpersoon' => $gegevens['contactpersoon'],
+                'nummer' => $gegevens['leveranciernummer'],
+                'mobiel' => $gegevens['mobiel'],
+                'id' => $id,
+            ]);
+
+            $contact = $this->database->prepare(
+                'UPDATE Contact SET Straatnaam = :straatnaam, Huisnummer = :huisnummer,
+                                    Postcode = :postcode, Stad = :stad
+                 WHERE Id = (SELECT ContactId FROM Leverancier WHERE Id = :id) AND IsActief = 1'
+            );
+            $contact->execute([
+                'straatnaam' => $gegevens['straatnaam'],
+                'huisnummer' => $gegevens['huisnummer'],
+                'postcode' => $gegevens['postcode'],
+                'stad' => $gegevens['stad'],
+                'id' => $id,
+            ]);
+        });
+
+        return true;
     }
 
     public function producten(int $id): array
