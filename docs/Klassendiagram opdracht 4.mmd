@@ -1,0 +1,28 @@
+classDiagram
+    class AllergeenController {
+        +index(request, producten)
+        +leverancier(product, producten)
+    }
+    class Product {
+        -PDO database
+        +lijstAllergenen()
+        +overzichtAllergenen(allergeenId, pagina, perPagina)
+        +leverancierVoorProduct(productId)
+        +vind(id)
+    }
+    class LengthAwarePaginator
+    class ProductView {
+        overzicht-allergenen.blade.php
+    }
+    class LeverancierView {
+        allergeen-leverancier.blade.php
+    }
+    class MySQLDatabase {
+        sp_GetOverzichtAllergenen()
+        sp_GetAantalOverzichtAllergenen()
+    }
+    AllergeenController --> Product : gebruikt via PDO
+    AllergeenController --> ProductView : toont resultaten
+    AllergeenController --> LeverancierView : toont leverancier
+    Product --> LengthAwarePaginator : bouwt pagina's
+    Product --> MySQLDatabase : roept procedures aan

@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
         ->whereNumber(['leverancier', 'product'])->name('leveringen.store');
     Route::get('/producten/{id}/allergenen', [AllergeenController::class, 'show'])
         ->whereNumber('id')->name('producten.allergenen');
+    Route::get('/allergenen', [AllergeenController::class, 'index'])->name('allergenen.index');
+    Route::get('/allergenen/product/{product}/leverancier', [AllergeenController::class, 'leverancier'])
+        ->whereNumber('product')->name('allergenen.leverancier');
     Route::get('/producten/{id}/leveringen', [LeveringController::class, 'show'])
         ->whereNumber('id')->name('producten.leveringen');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
