@@ -14,6 +14,7 @@
         <nav aria-label="Hoofdnavigatie">
             <a href="{{ route('magazijn.index') }}">Producten</a>
             <a href="{{ route('leveranciers.index') }}">Leveranciers</a>
+            <a href="{{ route('allergenen.index') }}">Allergenen</a>
             <a href="{{ route('dashboard') }}">Mijn account</a>
             <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit">Uitloggen</button></form>
         </nav>

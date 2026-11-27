@@ -15,6 +15,7 @@
                     <a href="{{ route('magazijn.index') }}" class="mt-6 inline-flex rounded-lg bg-red-700 px-5 py-3 font-semibold text-white">Overzicht Magazijn Jamin</a>
                     <a href="{{ route('leveranciers.index') }}" class="mt-6 ml-3 inline-flex rounded-lg bg-gray-900 px-5 py-3 font-semibold text-white">Overzicht leveranciers</a>
                     <a href="{{ route('leveranciers.wijzigen.index') }}" class="mt-6 ml-3 inline-flex rounded-lg bg-red-700 px-5 py-3 font-semibold text-white">Wijzigen Leveranciers</a>
+                    <a href="{{ route('allergenen.index') }}" class="mt-6 ml-3 inline-flex rounded-lg bg-red-700 px-5 py-3 font-semibold text-white">Overzicht Allergenen</a>
                 </div>
             </div>
         </div>

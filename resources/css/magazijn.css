@@ -60,5 +60,9 @@
     .leverancier-formulier label { @apply mb-2 block text-sm font-semibold; }
     .leverancier-formulier input { @apply w-full rounded-lg border-stone-300 focus:border-red-700 focus:ring-red-700; }
     .formulier-acties { @apply sm:col-span-2; }
+    .filter-formulier { @apply mb-6 flex flex-wrap items-end gap-3 rounded-xl border border-stone-200 bg-white p-5; }
+    .filter-formulier label { @apply block text-sm font-semibold; }
+    .filter-formulier select { @apply mt-2 min-w-56 rounded-lg border-stone-300 focus:border-red-700 focus:ring-red-700; }
+    .leverancier-melding { @apply rounded-xl border border-amber-300 bg-amber-50 px-5 py-4 font-semibold text-amber-950; }
 }
 

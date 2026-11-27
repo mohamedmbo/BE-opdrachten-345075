@@ -14,6 +14,8 @@ DROP PROCEDURE IF EXISTS sp_WijzigLeverancier;
 DROP PROCEDURE IF EXISTS sp_GetLeverancierDetails;
 DROP PROCEDURE IF EXISTS sp_GetAantalLeveranciers;
 DROP PROCEDURE IF EXISTS sp_GetLeveranciersWijzigen;
+DROP PROCEDURE IF EXISTS sp_GetOverzichtAllergenen;
+DROP PROCEDURE IF EXISTS sp_GetAantalOverzichtAllergenen;
 DROP TABLE IF EXISTS ProductPerLeverancier;
 DROP TABLE IF EXISTS ProductPerAllergeen;
 DROP TABLE IF EXISTS Magazijn;
@@ -66,7 +68,7 @@ CREATE TABLE Leverancier (
     ContactPersoon VARCHAR(100) NOT NULL,
     LeverancierNummer VARCHAR(20) NOT NULL,
     Mobiel VARCHAR(20) NOT NULL,
-    ContactId INT UNSIGNED NOT NULL,
+    ContactId INT UNSIGNED NULL,
     IsActief BIT NOT NULL DEFAULT b'1',
     Opmerking VARCHAR(250) NULL,
     DatumAangemaakt DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -136,7 +138,8 @@ INSERT INTO Product (Id, Naam, Barcode, IsActief) VALUES
 (10, 'Winegums', '8719587327527', b'0'),
 (11, 'Drop Munten', '8719587322345', b'1'),
 (12, 'Kruis Drop', '8719587322265', b'1'),
-(13, 'Zoute Ruitjes', '8719587323256', b'1');
+(13, 'Zoute Ruitjes', '8719587323256', b'1'),
+(14, 'Drop Ninja’s', '8719587323277', b'1');
 
 INSERT INTO Allergeen (Id, Naam, Omschrijving) VALUES
 (1, 'Gluten', 'Dit product bevat gluten'),
@@ -159,16 +162,17 @@ INSERT INTO Leverancier (Id, Naam, ContactPersoon, LeverancierNummer, Mobiel, Co
 (3, 'Haribo', 'Sven Stalman', 'L1029324748', '06-24383291', 3),
 (4, 'Basset', 'Joyce Stelterberg', 'L1023845773', '06-48293823', 4),
 (5, 'De Bron', 'Remco Veenstra', 'L1023857736', '06-34291234', 5),
-(6, 'Quality Street', 'Johan Nooij', 'L1029234586', '06-23458456', 6);
+(6, 'Quality Street', 'Johan Nooij', 'L1029234586', '06-23458456', 6),
+(7, 'Hom Ken Food', 'Hom Ken', 'L1029234599', '06-23458477', NULL);
 
 INSERT INTO Magazijn (Id, ProductId, VerpakkingsEenheid, AantalAanwezig) VALUES
 (1,1,5,453), (2,2,2.5,400), (3,3,5,1), (4,4,1,800),
 (5,5,3,234), (6,6,2,345), (7,7,1,795), (8,8,10,233),
-(9,9,2.5,123), (10,10,3,NULL), (11,11,2,367), (12,12,1,467), (13,13,5,20);
+(9,9,2.5,123), (10,10,3,NULL), (11,11,2,367), (12,12,1,467), (13,13,5,20), (14,14,1,NULL);
 
 INSERT INTO ProductPerAllergeen (Id, ProductId, AllergeenId) VALUES
 (1,1,2), (2,1,1), (3,1,3), (4,3,4), (5,6,5), (6,9,2),
-(7,9,5), (8,10,2), (9,12,4), (10,13,1), (11,13,4), (12,13,5);
+(7,9,5), (8,10,2), (9,12,4), (10,13,1), (11,13,4), (12,13,5), (13,14,5);
 
 -- In de bron komt Id 14 tweemaal voor. De laatste drie Id's zijn 15, 16, 17.
 INSERT INTO ProductPerLeverancier
@@ -189,7 +193,8 @@ INSERT INTO ProductPerLeverancier
 (14,5,11,'2023-11-10',47,'2023-11-17'),
 (15,5,11,'2023-11-19',60,'2023-11-26'),
 (16,5,12,'2023-11-11',45,NULL),
-(17,5,13,'2023-11-12',23,NULL);
+(17,5,13,'2023-11-12',23,NULL),
+(18,7,14,'2023-11-14',20,NULL);
 COMMIT;
 
 DELIMITER $$
@@ -311,6 +316,49 @@ BEGIN
        SET AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
      WHERE ProductId = p_ProductId AND IsActief = b'1';
     COMMIT;
+END$$
+
+-- Opdracht 4: allergenenoverzicht volgens de user story en wireframes.
+CREATE PROCEDURE sp_GetOverzichtAllergenen(
+    IN p_AllergeenId INT UNSIGNED,
+    IN p_Limiet INT UNSIGNED,
+    IN p_Offset INT UNSIGNED
+)
+BEGIN
+    SELECT p.Id AS ProductId,
+           p.Naam AS ProductNaam,
+           GROUP_CONCAT(DISTINCT a.Naam ORDER BY a.Naam SEPARATOR ', ') AS AllergeenNamen,
+           GROUP_CONCAT(DISTINCT a.Omschrijving ORDER BY a.Naam SEPARATOR '; ') AS Omschrijving,
+           m.AantalAanwezig,
+           MAX(l.Id) AS LeverancierId
+    FROM Product p
+    INNER JOIN ProductPerAllergeen pa
+      ON pa.ProductId = p.Id AND pa.IsActief = b'1'
+    INNER JOIN Allergeen a
+      ON a.Id = pa.AllergeenId AND a.IsActief = b'1'
+    LEFT JOIN Magazijn m
+      ON m.ProductId = p.Id AND m.IsActief = b'1'
+    LEFT JOIN ProductPerLeverancier pl
+      ON pl.ProductId = p.Id AND pl.IsActief = b'1'
+    LEFT JOIN Leverancier l
+      ON l.Id = pl.LeverancierId AND l.IsActief = b'1'
+    WHERE p.IsActief = b'1'
+      AND (p_AllergeenId IS NULL OR a.Id = p_AllergeenId)
+    GROUP BY p.Id, p.Naam, m.AantalAanwezig
+    ORDER BY p.Naam ASC
+    LIMIT p_Limiet OFFSET p_Offset;
+END$$
+
+CREATE PROCEDURE sp_GetAantalOverzichtAllergenen(IN p_AllergeenId INT UNSIGNED)
+BEGIN
+    SELECT COUNT(DISTINCT p.Id) AS Aantal
+    FROM Product p
+    INNER JOIN ProductPerAllergeen pa
+      ON pa.ProductId = p.Id AND pa.IsActief = b'1'
+    INNER JOIN Allergeen a
+      ON a.Id = pa.AllergeenId AND a.IsActief = b'1'
+    WHERE p.IsActief = b'1'
+      AND (p_AllergeenId IS NULL OR a.Id = p_AllergeenId);
 END$$
 
 DELIMITER ;
